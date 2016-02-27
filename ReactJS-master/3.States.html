@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>3状态States</title>
+</head>
+<body>
+        <div id="app"></div>
+        <script src="build/react.js"></script>
+        <script src="build/JSXTransformer.js"></script>
+
+        <script type="text/jsx">
+            var MessageBox = React.createClass({
+                getInitialState:function(){
+                    return {
+                        isTrueOrFalse:true,
+                        titleMsg:"来自State"
+                    }
+                },
+                render:function(){
+                    var styleObj={
+                        display: this.state.isTrueOrFalse==true ? 'block' : 'none'
+                    }
+                    return (
+                            <div>
+                                <h1 style={styleObj}>{this.state.titleMsg}</h1>
+                                <SubMessageBox/>
+                            </div>
+                        )
+                }
+            });
+
+
+
+            var SubMessageBox = React.createClass({
+                render:function(){
+                    return (
+                            <div>
+                                 <h3>这里是组件2</h3>
+                            </div>
+                    )
+
+                }
+            });
+
+
+            var messageObj = React.render(<MessageBox/>,document.getElementById('app'),function(){
+                console.log('渲染完成');
+            });
+
+            /**
+             * 1.试试在控制台里打印 messageObj.state的值。结果为：Object {isTrueOrFalse: true, titleMsg: "来自State"}
+             *
+             * 2.设置:  messageObj.state.isTrueOrFalse=false， 发现'来自State'并没有被隐藏。
+             *
+             *  官网说明：
+             *  Notes:
+                 NEVER mutate this.state directly, as calling setState() afterwards may replace the mutation you made.
+                 Treat this.state as if it were immutable.
+                 setState() does not immediately mutate this.state but creates a pending state transition.
+                 Accessing this.state after calling this method can potentially return the existing value.
+                 There is no guarantee of synchronous operation of calls to setState and calls may be batched
+                 for performance gains.
+                 setState() will always trigger a re-render unless conditional rendering logic is implemented in
+                 shouldComponentUpdate(). If mutable objects are being used and the logic cannot be implemented in
+                 shouldComponentUpdate(), calling setState() only when the new state differs from the previous state
+                 will avoid unnecessary re-renders.
+             *
+             *  需要调用messageObj.forceUpdate();来刷新组件
+             *
+             *  3.使用messageObj.setState({'isTrueOrFalse':false}); 即可刷新组件，无需再调用messageObj.forceUpdate()
+             *
+             *  4.也可以使用messageObj.setState({'titleMsg':'我已经改变了'}); 来改变界面上的显示的值
+             */
+        </script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>4组件直接的值传递</title>
+</head>
+<body>
+<div id="app"></div>
+<script src="build/react.js"></script>
+<script src="build/JSXTransformer.js"></script>
+
+<script type="text/jsx">
+    var MessageBox = React.createClass({
+        getInitialState:function(){
+            return {
+                isTrueOrFalse:true,
+                subMessages:[
+                        '数据1',
+                        '数据2',
+                        '数据3'
+                ]
+            }
+        },
+        render:function(){
+            return (<h1>{this.props.title}</h1>)
+        }
+    });
+
+    var SubMessages = React.createClass({
+
+        render:function(){
+            return (<h1>{msgs}</h1>)
+        }
+    });
+
+    var title ="来自最顶层组件";
+    React.render(<MessageBox title={title}/>,document.getElementById("app"));
+</script>
+</body>
+</html>
